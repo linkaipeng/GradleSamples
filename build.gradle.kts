@@ -21,9 +21,12 @@ buildscript {
 
 allprojects {
     repositories {
+
+        maven {
+            url = uri("file:///Users/linkaipeng/Documents/demos/GradleKotlinDemo/repo/")
+        }
         google()
         jcenter()
-        
     }
 }
 
