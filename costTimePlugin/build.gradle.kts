@@ -26,6 +26,7 @@ val sourcesJar by tasks.registering(Jar::class) {
 }
 
 dependencies {
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     compile(gradleApi())
     compile(kotlin("stdlib"))
     implementation("com.android.tools.build:gradle:3.4.2")
