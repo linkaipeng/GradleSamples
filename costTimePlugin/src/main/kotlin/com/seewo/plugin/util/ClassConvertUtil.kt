@@ -24,6 +24,7 @@ class ClassConvertUtil {
                 val dirPath = directoryInput.file.absolutePath
                 pool.insertClassPath(dirPath)
 
+                // 递归遍历所有文件
                 FileUtils.listFiles(directoryInput.file, null, true).map {
                     if (it.absolutePath.endsWith(SdkConstants.DOT_CLASS)) {
                         val className = it.absolutePath.substring(dirPath.length + 1,
@@ -37,9 +38,7 @@ class ClassConvertUtil {
                                 mainClass.defrost()
                             }
 
-                            //获取到OnCreate方法
                             val ctMethod = mainClass.getDeclaredMethod("test")
-
                             println("方法名 = $ctMethod")
 
                             addTimeCountMethod(ctMethod)
@@ -56,7 +55,7 @@ class ClassConvertUtil {
                     directoryInput.contentTypes, directoryInput.scopes, Format.DIRECTORY)
                 println(directoryInput.file.path + " ---> " + dest?.toPath())
 
-                // 将input的目录复制到output指定目录
+                // 将 input 的目录复制到 output 指定目录
                 FileUtils.copyDirectory(directoryInput.file, dest)
             }
 
