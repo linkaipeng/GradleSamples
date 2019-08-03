@@ -30,6 +30,7 @@ dependencies {
     compile(gradleApi())
     compile(kotlin("stdlib"))
     implementation("com.android.tools.build:gradle:3.4.2")
+    implementation("com.seewo.annotation:annotationLib:1.0.0")
 }
 
 publishing {

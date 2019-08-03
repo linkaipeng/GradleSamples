@@ -2,6 +2,7 @@ package com.seewo.gradlekotlindemo
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.seewo.annotation.CostTime
 
 
 class MainActivity : AppCompatActivity() {
@@ -12,7 +13,7 @@ class MainActivity : AppCompatActivity() {
         test("")
     }
 
-    @Test2
+    @CostTime
     fun test(testStr: String) {
         Thread.sleep(1000)
     }

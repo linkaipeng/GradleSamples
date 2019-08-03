@@ -5,7 +5,7 @@ import com.android.build.api.transform.Transform
 import com.android.build.api.transform.TransformInvocation
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.internal.pipeline.TransformManager
-import com.test.plugin.ClassConvertUtil
+import com.seewo.plugin.util.ClassConvertUtil
 import javassist.ClassPool
 import org.gradle.api.Project
 
@@ -21,13 +21,16 @@ class CostTimeStandAlongTransform(project: Project): Transform() {
     override fun transform(transformInvocation: TransformInvocation?) {
         println("-------- transform ---------")
         super.transform(transformInvocation)
-        val pool = ClassPool.getDefault()
+        val classPool = ClassPool.getDefault()
 
         // 添加 android 依赖
         val android = mProject.extensions.getByType(AppExtension::class.java)
-        pool.appendClassPath(android.bootClasspath[0].toString())
 
-        ClassConvertUtil().convert(transformInvocation?.inputs, transformInvocation?.outputProvider, pool)
+        android.bootClasspath.map {
+            classPool.appendClassPath(it.absolutePath)
+        }
+
+        ClassConvertUtil().convert(transformInvocation?.inputs, transformInvocation?.outputProvider, classPool)
     }
 
 
