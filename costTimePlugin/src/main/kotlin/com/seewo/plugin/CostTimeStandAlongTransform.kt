@@ -3,10 +3,10 @@ package com.seewo.plugin
 import com.android.build.api.transform.QualifiedContent
 import com.android.build.api.transform.Transform
 import com.android.build.api.transform.TransformInvocation
+import com.android.build.gradle.AppExtension
 import com.android.build.gradle.internal.pipeline.TransformManager
-import com.seewo.gradlekotlindemo.com.test.util.ClassConvertUtil
+import com.test.plugin.ClassConvertUtil
 import javassist.ClassPool
-import javassist.bytecode.AnnotationsAttribute
 import org.gradle.api.Project
 
 
@@ -23,30 +23,13 @@ class CostTimeStandAlongTransform(project: Project): Transform() {
         super.transform(transformInvocation)
         val pool = ClassPool.getDefault()
 
-        val allClass = ClassConvertUtil.convert(transformInvocation?.inputs, transformInvocation?.outputProvider, pool)
+        // 添加 android 依赖
+        val android = mProject.extensions.getByType(AppExtension::class.java)
+        pool.appendClassPath(android.bootClasspath[0].toString())
 
-        allClass.map { ctClass ->
-
-            ctClass.declaredMethods.map {
-
-                println("method: ${it.name}")
-
-                println("annotations size: ${it.annotations.size}")
-
-                val mInfo = it.methodInfo
-
-                if (mInfo?.getAttribute(AnnotationsAttribute.visibleTag) != null) {
-
-                    val attr = mInfo.getAttribute(AnnotationsAttribute.visibleTag) as AnnotationsAttribute
-                    println("attr = $attr")
-                }
-
-            }
-        }
-
-        println("allClass size = ${allClass.size}")
-
+        ClassConvertUtil().convert(transformInvocation?.inputs, transformInvocation?.outputProvider, pool)
     }
+
 
     override fun getName(): String {
         return "CostTimeStandAlongTransform"

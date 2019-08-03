@@ -1,7 +1,6 @@
 package com.seewo.gradlekotlindemo
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 
@@ -16,7 +15,6 @@ class MainActivity : AppCompatActivity() {
     @Test2
     fun test(testStr: String) {
         Thread.sleep(1000)
-        Toast.makeText(this, "test", Toast.LENGTH_LONG).show()
     }
 
     fun testCostTime() {

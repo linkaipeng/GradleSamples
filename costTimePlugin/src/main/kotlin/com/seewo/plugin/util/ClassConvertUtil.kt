@@ -1,4 +1,4 @@
-package com.seewo.gradlekotlindemo.com.test.util
+package com.test.plugin
 
 import com.android.SdkConstants
 import com.android.build.api.transform.Format
@@ -6,6 +6,7 @@ import com.android.build.api.transform.TransformInput
 import com.android.build.api.transform.TransformOutputProvider
 import javassist.ClassPool
 import javassist.CtClass
+import javassist.CtMethod
 import org.apache.commons.codec.digest.DigestUtils
 import org.apache.commons.io.FileUtils
 
@@ -13,18 +14,14 @@ import org.apache.commons.io.FileUtils
  * Created by linkaipeng on 2019-08-02.
  *
  */
-object ClassConvertUtil {
+class ClassConvertUtil {
 
-    fun convert(inputs: Collection<TransformInput>?, outputProvider: TransformOutputProvider?, pool: ClassPool): MutableList<CtClass> {
+    fun convert(inputs: Collection<TransformInput>?, outputProvider: TransformOutputProvider?, pool: ClassPool) {
 
-        val classNames = mutableListOf<String>()
-        val allClass = mutableListOf<CtClass>()
         inputs?.map { transformInput ->
 
             transformInput.directoryInputs.map { directoryInput ->
-
                 val dirPath = directoryInput.file.absolutePath
-
                 pool.insertClassPath(dirPath)
 
                 FileUtils.listFiles(directoryInput.file, null, true).map {
@@ -32,10 +29,24 @@ object ClassConvertUtil {
                         val className = it.absolutePath.substring(dirPath.length + 1,
                             it.absolutePath.length - SdkConstants.DOT_CLASS.length).replace('/', '.')
 
-                        if(classNames.contains(className)){
-                            throw RuntimeException("You have duplicate classes with the same name : $className please remove duplicate classes ")
+
+                        if (className.contains("MainActivity")) {
+                            val mainClass = pool.get(className)
+                            //解冻
+                            if (mainClass.isFrozen) {
+                                mainClass.defrost()
+                            }
+
+                            //获取到OnCreate方法
+                            val ctMethod = mainClass.getDeclaredMethod("test")
+
+                            println("方法名 = $ctMethod")
+
+                            addTimeCountMethod(ctMethod)
+                            mainClass.writeFile(dirPath)
+                            mainClass.detach()//释放
                         }
-                        classNames.add(className)
+
                     }
 
                 }
@@ -62,20 +73,14 @@ object ClassConvertUtil {
                 FileUtils.copyFile(jarInput.file, dest)
             }
         }
+    }
 
-        classNames.map {
-            println("name ==== $it")
-        }
-
-
-        classNames.map {
-            try {
-                allClass.add(pool.get(it))
-            } catch (e: javassist.NotFoundException) {
-                println("class not found exception class name:$it ")
-            }
-        }
-
-        return allClass
+    private fun addTimeCountMethod(method: CtMethod) {
+        print("addTimeCountMethod   -------  ${method.name}")
+        method.addLocalVariable("start", CtClass.longType)
+        method.insertBefore("start = System.currentTimeMillis();")
+        method.insertAfter("android.util.Log.d(\"MainTest\", \"cost time is :\" + (System.currentTimeMillis() - start) + \"ms\");")
+        val toastCode = "android.widget.Toast.makeText(this,\"这里是 transform 过程插入的代码\", android.widget.Toast.LENGTH_SHORT).show();"
+        method.insertAfter(toastCode)
     }
 }

@@ -5,9 +5,4 @@ package com.seewo.gradlekotlindemo;
  */
 public class SecondActivity {
 
-
-    @Test2
-    private void haha() {
-
-    }
 }
