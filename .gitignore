@@ -7,4 +7,6 @@
 /captures
 .externalNativeBuild
 
+buildSrc/build
+
 repo
