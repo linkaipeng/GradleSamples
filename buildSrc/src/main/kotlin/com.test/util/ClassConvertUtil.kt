@@ -52,6 +52,7 @@ object ClassConvertUtil {
 
             //遍历jar文件 对jar不操作，但是要输出到out路径
             transformInput.jarInputs.map { jarInput ->
+                pool.insertClassPath(jarInput.file.absolutePath)
                 // 重命名输出文件（同目录copyFile会冲突）
                 var jarName = jarInput.name
                 val md5Name = DigestUtils.md5Hex(jarInput.file.absolutePath)

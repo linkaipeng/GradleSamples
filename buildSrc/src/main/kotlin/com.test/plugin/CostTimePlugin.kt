@@ -11,6 +11,7 @@ import org.gradle.api.Project
 class CostTimePlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
+        println(" ----- buildSrc plugin ---- ")
         val android = target.extensions.getByType(AppExtension::class.java)
         android.registerTransform(CostTimeTransform(target))
     }
