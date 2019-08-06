@@ -35,6 +35,17 @@ dependencies {
 
 }
 
-//tasks.create("kotlinTask", HelloTask::class.java) {
-//    this.hello()
-//}
+
+class TestPlugin: Plugin<Project> {
+
+    override fun apply(target: Project) {
+        target.task("testTask") {
+            doLast {
+                print("This is testTask in TestPlugin.")
+            }
+        }
+    }
+
+}
+
+apply<TestPlugin>()
