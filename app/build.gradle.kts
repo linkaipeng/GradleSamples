@@ -41,7 +41,14 @@ class TestPlugin: Plugin<Project> {
     override fun apply(target: Project) {
         target.task("testTask") {
             doLast {
-                print("This is testTask in TestPlugin.")
+
+                project.properties.keys.map {
+                    if("myName" == it) {
+                        println("propertie key = $it, value = ${project.properties[it]}")
+                    }
+                }
+
+                println("This is testTask in TestPlugin.")
             }
         }
     }
