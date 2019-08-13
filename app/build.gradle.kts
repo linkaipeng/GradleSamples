@@ -35,6 +35,13 @@ dependencies {
 
 }
 
+tasks.register("buildScriptTask") {
+    description = "直接定义的 task"
+    doLast {
+        println("hello buildScript~")
+    }
+}
+
 
 class TestPlugin: Plugin<Project> {
 
