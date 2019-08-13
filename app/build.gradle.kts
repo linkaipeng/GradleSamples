@@ -63,3 +63,46 @@ class TestPlugin: Plugin<Project> {
 }
 
 apply<TestPlugin>()
+
+
+
+
+// 任务顺序 demo
+
+task("developTask") {
+    group = "software"
+    description = "develop software."
+    doLast {
+        println("develop")
+    }
+}
+
+task("compileTask") {
+    group = "software"
+//    dependsOn("developTask")
+    mustRunAfter("developTask")
+    doLast {
+        println("compile")
+    }
+}
+
+task("testingTask") {
+    group = "software"
+    dependsOn("developTask")
+    dependsOn("compileTask")
+    finalizedBy("packagingTask")
+    doLast {
+        println("testing")
+    }
+}
+
+task("packagingTask") {
+    group = "software"
+    doLast {
+        println("packaging")
+    }
+}
+
+
+
+
