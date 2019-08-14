@@ -104,5 +104,36 @@ task("packagingTask") {
 }
 
 
+// skip task demo
 
+val skipDemoTask by tasks.registering {
+    doLast {
+        println("skipDemoTask ~")
+    }
+}
+
+skipDemoTask {
+    onlyIf { !project.hasProperty("skip") }
+}
+
+
+
+val exceptionDemoTask by tasks.registering {
+    doLast {
+        if (project.hasProperty("exception")) {
+            throw StopExecutionException()
+        }
+        println("exceptionDemoTask ~")
+    }
+}
+
+
+val enableDemoTask by tasks.registering {
+    doLast {
+        println("enableDemoTask ~")
+    }
+}
+enableDemoTask {
+    enabled = false
+}
 
