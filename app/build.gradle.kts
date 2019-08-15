@@ -105,6 +105,25 @@ task("packagingTask") {
     }
 }
 
+// read params demo
+
+task("readPropertiesTask") {
+    doLast {
+        val propFromFile = project.properties["com.seewo.propertie.hi"]
+        println("propFromFile = $propFromFile")
+
+        if(project.hasProperty("hi2")) {
+            val propFromCommandLine = project.properties["hi2"]
+            println("propFromCommandLine = $propFromCommandLine")
+        }
+
+        if(project.hasProperty("hi3")) {
+            val propFromCommandLine = project.properties["hi3"]
+            println("propFromCommandLine = $propFromCommandLine")
+        }
+    }
+}
+
 
 // skip task demo
 
