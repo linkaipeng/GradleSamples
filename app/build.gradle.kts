@@ -1,3 +1,5 @@
+import com.seewo.task.MyHelloTask
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -137,3 +139,6 @@ enableDemoTask {
     enabled = false
 }
 
+
+
+tasks.register<MyHelloTask>("myHelloTask")
