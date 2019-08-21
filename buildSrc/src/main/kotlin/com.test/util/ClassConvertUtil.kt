@@ -65,11 +65,6 @@ object ClassConvertUtil {
         }
 
         classNames.map {
-            println("name ==== $it")
-        }
-
-
-        classNames.map {
             try {
                 allClass.add(pool.get(it))
             } catch (e: javassist.NotFoundException) {

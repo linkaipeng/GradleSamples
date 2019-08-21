@@ -4,7 +4,7 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-android-extensions")
-//    id("cost-time-plugin")
+    id("print-method-plugin")
     id("com.seewo.cost-time")
 }
 

@@ -6,7 +6,6 @@ import com.android.build.api.transform.TransformInvocation
 import com.android.build.gradle.internal.pipeline.TransformManager
 import com.seewo.gradlekotlindemo.com.test.util.ClassConvertUtil
 import javassist.ClassPool
-import javassist.bytecode.AnnotationsAttribute
 import org.gradle.api.Project
 
 
@@ -14,12 +13,12 @@ import org.gradle.api.Project
  * Created by linkaipeng on 2019-07-28.
  *
  */
-class CostTimeTransform(project: Project): Transform() {
+class PrintMethodNameTransform(project: Project): Transform() {
 
     private var mProject = project
 
     override fun transform(transformInvocation: TransformInvocation?) {
-        println("-------- transform ---------")
+        println("-------- PrintMethodNameTransform ---------")
         super.transform(transformInvocation)
         val pool = ClassPool.getDefault()
 
@@ -28,19 +27,7 @@ class CostTimeTransform(project: Project): Transform() {
         allClass.map { ctClass ->
 
             ctClass.declaredMethods.map {
-
-                println("method: ${it.name}")
-
-                println("annotations size: ${it.annotations.size}")
-
-                val mInfo = it.methodInfo
-
-                if (mInfo?.getAttribute(AnnotationsAttribute.visibleTag) != null) {
-
-                    val attr = mInfo.getAttribute(AnnotationsAttribute.visibleTag) as AnnotationsAttribute
-                    println("attr = $attr")
-                }
-
+                println("method name ===== ${it.name}")
             }
         }
 
@@ -49,7 +36,7 @@ class CostTimeTransform(project: Project): Transform() {
     }
 
     override fun getName(): String {
-        return "CostTimeTransform"
+        return "PrintMethodNameTransform"
     }
 
     override fun getInputTypes(): MutableSet<QualifiedContent.ContentType> {

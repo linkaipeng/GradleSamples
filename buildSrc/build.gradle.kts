@@ -9,9 +9,9 @@ repositories {
 
 gradlePlugin {
     plugins {
-        create("CostTimePlugin") {
-            id = "cost-time-plugin"
-            implementationClass = "com.test.plugin.CostTimePlugin"
+        create("PrintMethodNamePlugin") {
+            id = "print-method-plugin"
+            implementationClass = "com.test.plugin.PrintMethodNamePlugin"
         }
     }
 }
