@@ -52,7 +52,7 @@ class TestPlugin: Plugin<Project> {
             doLast {
 
                 project.properties.keys.map {
-                    if("myName" == it) {
+                    if("host" == it) {
                         println("propertie key = $it, value = ${project.properties[it]}")
                     }
                 }
