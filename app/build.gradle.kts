@@ -1,18 +1,18 @@
-import com.seewo.task.MyHelloTask
+import me.linkaipeng.task.MyHelloTask
 
 plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-android-extensions")
     id("print-method-plugin")
-    id("com.seewo.cost-time")
+    id("me.linkaipeng.cost-time")
 }
 
 
 android {
     compileSdkVersion(29)
     defaultConfig {
-        applicationId = "com.seewo.gradlekotlindemo"
+        applicationId = "me.linkaipeng.gradlesample"
         minSdkVersion(19)
         targetSdkVersion(29)
         versionCode = 1
@@ -32,7 +32,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.31")
     implementation("androidx.appcompat:appcompat:1.0.2")
     implementation("androidx.core:core-ktx:1.0.2")
-    implementation("com.seewo.annotation:annotationLib:1.0.0")
+    implementation("me.linkaipeng.annotation:annotationLib:1.0.0")
 
 
 }
@@ -109,7 +109,7 @@ task("packagingTask") {
 
 task("readPropertiesTask") {
     doLast {
-        val propFromFile = project.properties["com.seewo.propertie.hi"]
+        val propFromFile = project.properties["me.linkaipeng.propertie.hi"]
         println("propFromFile = $propFromFile")
 
         if(project.hasProperty("hi2")) {

@@ -1,4 +1,4 @@
-package com.seewo.task
+package me.linkaipeng.task
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction

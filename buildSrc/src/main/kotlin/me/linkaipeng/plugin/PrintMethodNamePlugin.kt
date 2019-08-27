@@ -1,4 +1,4 @@
-package com.test.plugin
+package me.linkaipeng.plugin
 
 import com.android.build.gradle.AppExtension
 import org.gradle.api.Plugin

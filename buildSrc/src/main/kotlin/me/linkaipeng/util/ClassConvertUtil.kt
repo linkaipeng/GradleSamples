@@ -1,13 +1,11 @@
-package com.seewo.plugin.util
+package me.linkaipeng.util
 
 import com.android.SdkConstants
 import com.android.build.api.transform.Format
 import com.android.build.api.transform.TransformInput
 import com.android.build.api.transform.TransformOutputProvider
-import com.seewo.annotation.CostTime
 import javassist.ClassPool
 import javassist.CtClass
-import javassist.CtMethod
 import org.apache.commons.codec.digest.DigestUtils
 import org.apache.commons.io.FileUtils
 
@@ -15,44 +13,29 @@ import org.apache.commons.io.FileUtils
  * Created by linkaipeng on 2019-08-02.
  *
  */
-class ClassConvertUtil {
+object ClassConvertUtil {
 
-    fun convert(inputs: Collection<TransformInput>?, outputProvider: TransformOutputProvider?, pool: ClassPool) {
+    fun convert(inputs: Collection<TransformInput>?, outputProvider: TransformOutputProvider?, pool: ClassPool): MutableList<CtClass> {
 
+        val classNames = mutableListOf<String>()
+        val allClass = mutableListOf<CtClass>()
         inputs?.map { transformInput ->
 
             transformInput.directoryInputs.map { directoryInput ->
+
                 val dirPath = directoryInput.file.absolutePath
-                println("dirPath = $dirPath")
+
                 pool.insertClassPath(dirPath)
 
-                // 递归遍历所有文件
                 FileUtils.listFiles(directoryInput.file, null, true).map {
                     if (it.absolutePath.endsWith(SdkConstants.DOT_CLASS)) {
                         val className = it.absolutePath.substring(dirPath.length + 1,
                             it.absolutePath.length - SdkConstants.DOT_CLASS.length).replace('/', '.')
 
-                        val ctClass = pool.get(className)
-                        ctClass.declaredMethods.map { ctMethod ->
-                            println("method name = ${ctMethod.name}")
-                            if (ctMethod.getAnnotation(CostTime::class.java) != null) {
-                                println("检测到注解，需要插入代码")
-                                //解冻
-                                if (ctClass.isFrozen) {
-                                    ctClass.defrost()
-                                }
-
-                                val ctMethod = ctClass.getDeclaredMethod(ctMethod.name)
-                                println("方法名 = $ctMethod")
-
-                                addTimeCountMethod(ctMethod)
-                                ctClass.writeFile(dirPath)
-                                ctClass.detach()//释放
-
-                            } else {
-                                println("没有注解，跳过")
-                            }
+                        if(classNames.contains(className)){
+                            throw RuntimeException("You have duplicate classes with the same name : $className please remove duplicate classes ")
                         }
+                        classNames.add(className)
                     }
 
                 }
@@ -62,7 +45,7 @@ class ClassConvertUtil {
                     directoryInput.contentTypes, directoryInput.scopes, Format.DIRECTORY)
                 println(directoryInput.file.path + " ---> " + dest?.toPath())
 
-                // 将 input 的目录复制到 output 指定目录
+                // 将input的目录复制到output指定目录
                 FileUtils.copyDirectory(directoryInput.file, dest)
             }
 
@@ -80,14 +63,15 @@ class ClassConvertUtil {
                 FileUtils.copyFile(jarInput.file, dest)
             }
         }
-    }
 
-    private fun addTimeCountMethod(method: CtMethod) {
-        print("addTimeCountMethod   -------  ${method.name}")
-        method.addLocalVariable("start", CtClass.longType)
-        method.insertBefore("start = System.currentTimeMillis();")
-        method.insertAfter("android.util.Log.d(\"MainTest\", \"cost time is :\" + (System.currentTimeMillis() - start) + \"ms\");")
-        val toastCode = "android.widget.Toast.makeText(this,\"这里是 transform 过程插入的代码.\", android.widget.Toast.LENGTH_SHORT).show();"
-        method.insertAfter(toastCode)
+        classNames.map {
+            try {
+                allClass.add(pool.get(it))
+            } catch (e: javassist.NotFoundException) {
+                println("class not found exception class name:$it ")
+            }
+        }
+
+        return allClass
     }
 }

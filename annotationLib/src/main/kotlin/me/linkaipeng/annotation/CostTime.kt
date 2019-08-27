@@ -1,4 +1,4 @@
-package com.seewo.annotation
+package me.linkaipeng.annotation
 
 import java.lang.annotation.Retention
 import java.lang.annotation.RetentionPolicy

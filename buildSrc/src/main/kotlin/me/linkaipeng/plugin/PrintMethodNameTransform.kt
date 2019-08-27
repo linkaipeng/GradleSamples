@@ -1,10 +1,10 @@
-package com.test.plugin
+package me.linkaipeng.plugin
 
 import com.android.build.api.transform.QualifiedContent
 import com.android.build.api.transform.Transform
 import com.android.build.api.transform.TransformInvocation
 import com.android.build.gradle.internal.pipeline.TransformManager
-import com.seewo.gradlekotlindemo.com.test.util.ClassConvertUtil
+import me.linkaipeng.util.ClassConvertUtil
 import javassist.ClassPool
 import org.gradle.api.Project
 

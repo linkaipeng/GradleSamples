@@ -1,11 +1,11 @@
-package com.seewo.plugin
+package me.linkaipeng.plugin
 
 import com.android.build.api.transform.QualifiedContent
 import com.android.build.api.transform.Transform
 import com.android.build.api.transform.TransformInvocation
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.internal.pipeline.TransformManager
-import com.seewo.plugin.util.ClassConvertUtil
+import me.linkaipeng.plugin.util.ClassConvertUtil
 import javassist.ClassPool
 import org.gradle.api.Project
 
@@ -30,7 +30,8 @@ class CostTimeStandAlongTransform(project: Project): Transform() {
             classPool.appendClassPath(it.absolutePath)
         }
 
-        ClassConvertUtil().convert(transformInvocation?.inputs, transformInvocation?.outputProvider, classPool)
+        ClassConvertUtil()
+            .convert(transformInvocation?.inputs, transformInvocation?.outputProvider, classPool)
     }
 
 

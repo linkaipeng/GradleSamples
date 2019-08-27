@@ -1,8 +1,8 @@
-package com.seewo.gradlekotlindemo
+package me.linkaipeng.gradlesample
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.seewo.annotation.CostTime
+import me.linkaipeng.annotation.CostTime
 
 
 class MainActivity : AppCompatActivity() {

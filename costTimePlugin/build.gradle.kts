@@ -4,7 +4,7 @@ plugins {
     `maven-publish`
 }
 
-group = "com.seewo.plugin"
+group = "me.linkaipeng.plugin"
 version = "1.0.3"
 
 repositories {
@@ -30,7 +30,7 @@ dependencies {
     compile(gradleApi())
     compile(kotlin("stdlib"))
     implementation("com.android.tools.build:gradle:3.4.2")
-    implementation("com.seewo.annotation:annotationLib:1.0.0")
+    implementation("me.linkaipeng.annotation:annotationLib:1.0.0")
 }
 
 publishing {

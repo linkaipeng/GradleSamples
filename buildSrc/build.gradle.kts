@@ -11,7 +11,7 @@ gradlePlugin {
     plugins {
         create("PrintMethodNamePlugin") {
             id = "print-method-plugin"
-            implementationClass = "com.test.plugin.PrintMethodNamePlugin"
+            implementationClass = "me.linkaipeng.plugin.PrintMethodNamePlugin"
         }
     }
 }

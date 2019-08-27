@@ -4,7 +4,7 @@ plugins {
     `maven-publish`
 }
 
-group = "com.seewo.annotation"
+group = "me.linkaipeng.annotation"
 version = "1.0.0"
 
 
