@@ -1,10 +1,12 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
+
+    val repoPath = File("repo").absolutePath
     val kotlin_version = "1.3.31"
     repositories {
         maven {
-            url = uri("file:///Users/linkaipeng/Documents/demos/GradleKotlinDemo/repo/")
+            url = uri("file://$repoPath/")
         }
         google()
         jcenter()
@@ -20,10 +22,12 @@ buildscript {
 }
 
 allprojects {
+
+    val repoPath = File("repo").absolutePath
     repositories {
 
         maven {
-            url = uri("file:///Users/linkaipeng/Documents/demos/GradleKotlinDemo/repo/")
+            url = uri("file://$repoPath/")
         }
         google()
         jcenter()
